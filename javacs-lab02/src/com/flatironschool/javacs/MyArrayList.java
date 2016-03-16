@@ -40,7 +40,21 @@ public class MyArrayList<E> implements List<E> {
 		mal.add(3);
 		System.out.println(Arrays.toString(mal.toArray()) + " size = " + mal.size);
 		
+		
+		System.out.println("MY Tests############################");
+		// mal.set(0, 2);
+		// System.out.println(mal.get(0));
+		// System.out.println(mal.indexOf(2));
+		// System.out.println(mal.indexOf(3));
+		mal.add(3, 4);
+		System.out.println(mal.get(3));
+		System.out.println(mal.indexOf(4));
+		System.out.println(Arrays.toString(mal.toArray()) + " size = " + mal.size);
+		System.out.println("MY Tests############################");
+
 		mal.remove(new Integer(2));
+
+		
 		System.out.println(Arrays.toString(mal.toArray()) + " size = " + mal.size);
 	}
 
@@ -63,6 +77,32 @@ public class MyArrayList<E> implements List<E> {
 			throw new IndexOutOfBoundsException();
 		}
 		// TODO: fill in the rest of this method
+
+		E [] newArray = (E[]) new Object[size >= array.length? array.length*2 : array.length];
+		//Copy first part of the array before the index
+		if(index == 0)
+		{
+			System.arraycopy(array, 0, newArray, index + 1, size);
+			//Set index of array to specified element
+			newArray[index] = element;
+			//set size to new size and array to new array
+			array = newArray;
+			size+=1;
+		}
+		else
+		{
+			System.arraycopy(array, 0, newArray, 0, index);
+			//Set index of array to specified element
+			newArray[index] = element;
+			//Copy the remaining elements in the array
+			if(index < size)
+				System.arraycopy(array, index, newArray, index+1, size - (index));
+
+			//Set new size and new array to current array
+			array = newArray;
+			size+=1;
+		}
+
 	}
 
 	@Override
@@ -112,7 +152,29 @@ public class MyArrayList<E> implements List<E> {
 	@Override
 	public int indexOf(Object target) {
 		// TODO: fill in this method
-		return 0;
+		if(target == null)
+		{	
+			for(int i =0; i < size; i++)
+			{
+
+				if(array[i] == null)
+				{
+					return i;
+				}
+			}
+		}
+		else
+		{
+			for(int i =0; i < size; i++)
+			{
+
+				if(array[i].equals(target))
+				{
+					return i;
+				}
+			}
+		}
+		return -1;
 	}
 
 	/** Checks whether an element of the array is the target.
@@ -183,7 +245,16 @@ public class MyArrayList<E> implements List<E> {
 	@Override
 	public E remove(int index) {
 		// TODO: fill in this method.
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		E previous = array[index];
+		System.arraycopy(array, index+1, array, index, (size-index));
+
+		//Set new size of array
+		size-=1;
+		return previous;
 	}
 
 	@Override
@@ -203,7 +274,12 @@ public class MyArrayList<E> implements List<E> {
 	@Override
 	public E set(int index, E element) {
 		// TODO: fill in this method.
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		E previous = array[index];
+		array[index] = element;
+		return previous;
 	}
 
 	@Override
