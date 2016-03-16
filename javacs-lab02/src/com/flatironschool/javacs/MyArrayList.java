@@ -152,26 +152,12 @@ public class MyArrayList<E> implements List<E> {
 	@Override
 	public int indexOf(Object target) {
 		// TODO: fill in this method
-		if(target == null)
-		{	
-			for(int i =0; i < size; i++)
-			{
-
-				if(array[i] == null)
-				{
-					return i;
-				}
-			}
-		}
-		else
+		for(int i =0; i < size; i++)
 		{
-			for(int i =0; i < size; i++)
-			{
 
-				if(array[i].equals(target))
-				{
-					return i;
-				}
+			if(equals(target, array[i]))
+			{
+				return i;
 			}
 		}
 		return -1;
